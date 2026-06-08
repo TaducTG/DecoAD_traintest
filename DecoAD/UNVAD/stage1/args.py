@@ -42,7 +42,7 @@ def init_parser(default_dataset = 'NWPUCUB', default_data_dir='/home/liuxinyu/Py
                         help='Path to DATA')
 
     parser.add_argument('--dataset', type=str, default=default_dataset,
-                        choices=['NWPUC', 'UFSR', 'UBnormal','ShanghaiTech'], help='Dataset for Eval')
+                        choices=['NWPUC', 'UFSR', 'UBnormal','ShanghaiTech', 'Demo'], help='Dataset for Eval')
     parser.add_argument('--seg_len', type=int, default=24, metavar='SGLEN',
                         help='Number of frames for training segment sliding window, a multiply of 6 (default: 12)')
     parser.add_argument('--supervise', type=str, default='U',choices=['W', 'S', 'U'])
