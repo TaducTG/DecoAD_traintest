@@ -78,7 +78,7 @@ def get_cluster(auc_1 = 0.,flag1 = 0):
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
         model = Model().to(device)
 
         # 加载预训练的权重
@@ -167,7 +167,7 @@ def pose_cluster(auc_1 = 0.,flag1 = 0):
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
         model = Model().to(device)
 
         # 加载预训练的权重
@@ -233,7 +233,7 @@ def scene_cluster(auc_1 = 0.,flag1 = 0):
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
         model = Model().to(device)
 
         # 加载预训练的权重

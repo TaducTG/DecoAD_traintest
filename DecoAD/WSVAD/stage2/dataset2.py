@@ -32,7 +32,7 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,batchsize = args.opbs):
     name = f'{args.supervise}|{args.dataset}'
     checkpoints = f'{args.WSVAD}stage{flag1}/ckpt/{name}/model' + '{:.5f}.pkl'.format(
         auc_1)
-    device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     model1 = Model().to(device)
     model2 = Model().to(device)
 

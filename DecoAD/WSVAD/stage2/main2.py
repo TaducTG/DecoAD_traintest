@@ -50,7 +50,7 @@ def main2(epochs = 0,auc_1 = 0.,flag1=0, lr=0.000005, weight_decay=0.000005,data
         auc_1)
     max_auc = 0.
     loader_args = {'batch_size': 256, 'num_workers': 0, 'pin_memory': False}
-    device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     # return datasets, dataset_a,dataset_t, loaders, loader_a, loader_t
     if datasets==None:
         datasets, dataset_a,dataset_t, loaders, loader_a, loader_t = gen_fusion_dataset_dataloader_2(auc_1 = auc_1,flag1=flag1)

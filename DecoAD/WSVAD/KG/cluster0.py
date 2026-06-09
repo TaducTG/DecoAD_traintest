@@ -49,7 +49,7 @@ def get_cluster(auc_1 = 0,flag1 = 0,dataset_input=None,loader_input=None,batchsi
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
         model = Model().to(device)
 
         # 加载预训练的权重
@@ -177,7 +177,7 @@ def get_scene_cluster(num = 40):
     if os.path.exists(file_name):
         os.remove(file_name)
     if not os.path.exists(file_name):
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
         scene_inputs = torch.from_numpy(get_all_npy_paths(f'{args.DATA}UFSR_scene_feature')).to(torch.float).to(device)
 
         kmeans = KMeans(n_clusters=num, random_state=0).fit(np.array(scene_inputs.cpu()))

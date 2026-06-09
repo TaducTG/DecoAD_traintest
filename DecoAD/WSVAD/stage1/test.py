@@ -214,7 +214,7 @@ def test(dataloader, model, device, sl=24, threshold=0.5 ,window_size=156):
 
 def to_test(checkpoints = ''):
     max_auc = 0.
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
 
     # 检查计算机上的可用 CUDA 设备数量

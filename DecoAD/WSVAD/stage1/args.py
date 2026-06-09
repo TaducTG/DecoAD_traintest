@@ -103,7 +103,7 @@ def init_parser(default_dataset='UFSR', default_data_dir=None, default_exp_dir=N
     # lxy
     parser.add_argument('--start_epoch',type=int,default=0)
     parser.add_argument('--optimizer',type=str,default='adam')
-    parser.add_argument('--device', type=str, default='cpu', help='Device to use (cuda or cpu)')
+    parser.add_argument('--device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu', help='Device to use (cuda or cpu)')
     parser.add_argument('--epochs_encoder', type=int, default=100)
 
     return parser

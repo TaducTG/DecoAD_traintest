@@ -100,7 +100,7 @@ def cluster_test(auc_1=0,flag1=0,dataset_input=None,loader_input=None,batchsize 
     name = f'{args.supervise}|{args.dataset}'
     checkpoints = f'model' + '{:.5f}.pkl'.format(
         auc_1)
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     model = Model()
 
     # 加载预训练的权重
@@ -207,7 +207,7 @@ def cluster_all_test(auc_1=0,flag1=0,dataset_input=None,loader_input=None,batchs
     name = f'{args.supervise}|{args.dataset}'
     checkpoints = f'model' + '{:.5f}.pkl'.format(
         auc_1)
-        device = torch.device('cuda:0' if args.device == 'cuda' and torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     model = Model()
 
     # 加载预训练的权重
