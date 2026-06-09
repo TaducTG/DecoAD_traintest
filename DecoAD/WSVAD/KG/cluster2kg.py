@@ -77,9 +77,9 @@ def optimized_batch_calculation(pose_features, array):
     :param array: 数据集 (dataset_size, feature_dim)
     :return: 每个查询样本的相似度索引
     """
-        device = torch.device('cpu')
-        pose_features_tensor = torch.stack([torch.tensor(feature, device=device) for feature in pose_features])
-        array_tensor = torch.stack([torch.tensor(arr, device=device) for arr in array])
+    device = torch.device('cpu')
+    pose_features_tensor = torch.stack([torch.tensor(feature, device=device) for feature in pose_features])
+    array_tensor = torch.stack([torch.tensor(arr, device=device) for arr in array])
 
     # 计算每个 pose_feature 与整个数据集之间的相似度
     pose_ids_clip = cal_similarity_batch(pose_features_tensor, array_tensor)
@@ -100,11 +100,11 @@ def cluster_test(auc_1=0,flag1=0,dataset_input=None,loader_input=None,batchsize 
     name = f'{args.supervise}|{args.dataset}'
     checkpoints = f'model' + '{:.5f}.pkl'.format(
         auc_1)
-        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     model = Model()
 
     # 加载预训练的权重
-        checkpoint = torch.load(f'{args.WSVAD}stage{flag1}/ckpt/{name}/'+checkpoints, map_location=device)
+    checkpoint = torch.load(f'{args.WSVAD}stage{flag1}/ckpt/{name}/'+checkpoints, map_location=device)
     print("Keys in the checkpoint:", checkpoint.keys())
 
     # 仅加载 getpose 部分的权重
@@ -207,11 +207,11 @@ def cluster_all_test(auc_1=0,flag1=0,dataset_input=None,loader_input=None,batchs
     name = f'{args.supervise}|{args.dataset}'
     checkpoints = f'model' + '{:.5f}.pkl'.format(
         auc_1)
-        device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
     model = Model()
 
     # 加载预训练的权重
-        checkpoint = torch.load(f'{args.WSVAD}stage{flag1}/ckpt/{name}/'+checkpoints, map_location=device)
+    checkpoint = torch.load(f'{args.WSVAD}stage{flag1}/ckpt/{name}/'+checkpoints, map_location=device)
     print("Keys in the checkpoint:", checkpoint.keys())
 
     # 仅加载 getpose 部分的权重
