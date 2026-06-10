@@ -624,6 +624,12 @@ def gen_fusion_dataset_dataloader():
             t = [data, mate, scene, label,path_data]
             tmp_train.append(t)
 
+    if(counter!=0):
+        tmp_train_step = uniform_sampling(args.batch_size,tmp_train)
+        if(old_mate[0] == 'n'):
+            dataset_n+=tmp_train_step
+            nn += 1
+
     for test in dataset_test:
         data, tran, mate, label,path_data = test
         data = data[:2, :, :]
