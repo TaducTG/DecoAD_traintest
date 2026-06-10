@@ -59,20 +59,16 @@ class LSTM(nn.Module):
 
     def forward(self, pose):
         batch_size, seq_len, input_size = pose.size()
-        h_0 = torch.zeros(self.num_layers, batch_size, self.hidden_size)
-        c_0 = torch.zeros(self.num_layers, batch_size, self.hidden_size)
         # 重塑输入数据形状以适应LSTM
         pose = pose.view(batch_size, seq_len, input_size)
         # LSTM 前向传播
-        pose, (h_n, c_n) = self.lstm(pose, (h_0, c_0))
-        # 选择最后一个时间步的输出
-        # pose = pose[:, -1, :]  # 选择最后一个时间步的隐藏状态作为输出
+        pose, _ = self.lstm(pose)
         return pose
 
 class GetPose(nn.Module):
     def __init__(self):
         super(GetPose, self).__init__()
-        self.adj_matrix = get_adjacency_matrices()
+        self.register_buffer('adj_matrix', get_adjacency_matrices())
         self.gcn = GCN(in_channels=2, hidden_channels=16, out_channels=2)
         self.lstm = LSTM(input_size=36,hidden_size=128,num_layers=1)
         self.conv = nn.Conv1d(in_channels=args.seg_len, out_channels=1, kernel_size=3, padding=1)
