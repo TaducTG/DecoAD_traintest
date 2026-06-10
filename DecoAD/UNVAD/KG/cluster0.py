@@ -23,6 +23,9 @@ def save2txt(cluster_info,filename,category = 'pose'):
     # 指定要保存的文件名
     file_name = filename
 
+    # 确保文件夹存在
+    os.makedirs(os.path.dirname(file_name), exist_ok=True)
+
     # 检查文件是否已存在
     if not os.path.exists(file_name):
         # 如果文件不存在，执行以下操作
