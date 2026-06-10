@@ -30,7 +30,7 @@ set ALPHAPOSE_PYTHON=C:\Users\Admin\miniconda3\envs\DecoAD-cpu\python.exe
 set ALPHAPOSE_CFG=D:\CV\DecoAD_prj\DecoAD\AlphaPose\configs\coco\resnet\256x192_res50_lr1e-3_1x.yaml
 set ALPHAPOSE_CKPT=D:\CV\DecoAD_prj\DecoAD\AlphaPose\pretrained_models\fast_res50_256x192.pth
 
-python d:\CV\DecoAD_prj\DecoAD\test_video\preprocess_video.py --video "d:\CV\DecoAD_prj\DecoAD\test_video\video (1).avi" --output-root "d:\CV\DecoAD_prj\DecoAD\data"
+python d:\CV\DecoAD_prj\DecoAD\test_video\preprocess_video.py --video "d:\CV\DecoAD_prj\DecoAD\train_video\normal_1.avi" --output-root "d:\CV\DecoAD_prj\DecoAD\data"
 ```
 
 ### Data Directory

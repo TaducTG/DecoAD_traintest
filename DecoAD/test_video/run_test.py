@@ -93,7 +93,11 @@ def main():
     print(f"Successfully loaded checkpoint from: {args_opt.checkpoint}")
     
     # Run Inference
-    total_frames = 157  # Mặc định
+    total_frames = 0
+    for test_item in test_dataset:
+        data, tran, mate, label, path_data = test_item
+        total_frames = max(total_frames, int(mate[3]) + args.seg_len)
+        
     frames_dir = os.path.join(args.data_dir, args.dataset, "test/frames")
     if os.path.exists(frames_dir):
         total_frames = len([f for f in os.listdir(frames_dir) if f.endswith(('.jpg', '.png', '.jpeg'))])
