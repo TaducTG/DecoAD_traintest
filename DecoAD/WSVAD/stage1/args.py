@@ -20,6 +20,9 @@ def init_sub_args(args):
     args.pose_path = {'train': os.path.join(args.data_dir, dataset, 'pose', 'train/'),
                     'test':  os.path.join(args.data_dir, dataset, 'pose', 'test/')}
 
+    if args.pose_path_train_abnormal is None:
+        args.pose_path_train_abnormal = os.path.join(args.data_dir, dataset, 'pose', 'abnormal_train', '')
+
     args.pose_path["train_abnormal"] = args.pose_path_train_abnormal
     args.ckpt_dir = None
     model_args = args_rm_prefix(args, 'model_')
@@ -34,7 +37,7 @@ def init_parser(default_dataset='UFSR', default_data_dir=None, default_exp_dir=N
     default_wsvad = os.path.join(str(repo_root / 'WSVAD'), '')
     parser = argparse.ArgumentParser(prog="DecoAD")
     parser.add_argument('--pose_path_train_abnormal', type=str,
-                        default=default_pose_abnormal,
+                        default=None,
                         help='Path to training vids')
     parser.add_argument('--WSVAD', type=str,
                         default=default_wsvad,
