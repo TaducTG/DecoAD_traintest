@@ -205,8 +205,9 @@ def train(loaders, model, batch_size, optimizer, device):
             # 按列求平均，得到形状 [512]
             score = loss_elementwise.mean(dim=1)
 
+            label = label.to(device)
             alpha = 0.5
-            weights = torch.where(label == 0, torch.tensor(alpha), torch.tensor(1.0 - alpha))
+            weights = torch.where(label == 0, torch.tensor(alpha, device=device), torch.tensor(1.0 - alpha, device=device))
             loss = F.binary_cross_entropy_with_logits(score, label.float(), weight=weights)
 
             loss_num += loss.item()

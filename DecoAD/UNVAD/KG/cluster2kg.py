@@ -164,8 +164,8 @@ def find_cluster_pose(pose,scene,relation):
 
 def cluster_test(auc_1,flag1,threshold1,dataset_input=None,loader_input=None,batchsize = args.opbs):
     name = f'{args.supervise}|{args.dataset}'
-    device = torch.device("cuda:0")
-    model = Autoencoder()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = Autoencoder().to(device)
 
     # 加载预训练的权重
     checkpoints = f'{args.UNVAD}stage{flag1}/ckpt/{name}/model' + '{:.5f}'.format(
@@ -237,8 +237,8 @@ def cluster_test(auc_1,flag1,threshold1,dataset_input=None,loader_input=None,bat
 
 def cluster_all_test(auc_1,flag1,threshold1,dataset_input=None,loader_input=None,batchsize = args.opbs):
     name = f'{args.supervise}|{args.dataset}'
-    device = torch.device("cuda:0")
-    model = Autoencoder()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = Autoencoder().to(device)
 
     # 加载预训练的权重
     checkpoints = f'{args.UNVAD}stage{flag1}/ckpt/{name}/model' + '{:.5f}'.format(

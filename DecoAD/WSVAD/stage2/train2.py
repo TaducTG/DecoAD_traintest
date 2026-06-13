@@ -41,9 +41,10 @@ def train(loaders, model, optimizer, device,criterion):
 
             score = model(pose,path,scene).squeeze(1)
 
+            label = label.to(device)
             # alpha = 1e-1
             alpha = 0.5
-            weights = torch.where(label == 0, torch.tensor(alpha), torch.tensor(1.0-alpha))
+            weights = torch.where(label == 0, torch.tensor(alpha, device=device), torch.tensor(1.0-alpha, device=device))
             loss = F.binary_cross_entropy_with_logits(score, label.float(), weight=weights)
             loss_num += loss.item()
 
