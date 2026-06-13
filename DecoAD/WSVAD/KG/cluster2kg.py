@@ -101,7 +101,7 @@ def cluster_test(auc_1=0,flag1=0,dataset_input=None,loader_input=None,batchsize 
     checkpoints = f'model' + '{:.5f}.pkl'.format(
         auc_1)
     device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
-    model = Model()
+    model = Model().to(device)
 
     # 加载预训练的权重
     checkpoint = torch.load(f'{args.WSVAD}stage{flag1}/ckpt/{name}/'+checkpoints, map_location=device)
@@ -208,7 +208,7 @@ def cluster_all_test(auc_1=0,flag1=0,dataset_input=None,loader_input=None,batchs
     checkpoints = f'model' + '{:.5f}.pkl'.format(
         auc_1)
     device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
-    model = Model()
+    model = Model().to(device)
 
     # 加载预训练的权重
     checkpoint = torch.load(f'{args.WSVAD}stage{flag1}/ckpt/{name}/'+checkpoints, map_location=device)
