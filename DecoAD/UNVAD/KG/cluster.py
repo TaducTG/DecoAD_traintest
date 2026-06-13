@@ -78,8 +78,8 @@ def get_cluster(auc_1 = 0.,flag1 = 0):
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device("cuda:0")
-        model = Model()
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        model = Autoencoder().to(device)
 
         # 加载预训练的权重
         checkpoint = torch.load(f'{args.UNVAD}stage{flag1}/ckpt/{name}/'+checkpoints)
@@ -167,8 +167,8 @@ def pose_cluster(auc_1 = 0.,flag1 = 0):
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device("cuda:0")
-        model = Model()
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        model = Autoencoder().to(device)
 
         # 加载预训练的权重
         checkpoint = torch.load(f'{args.UNVAD}stage{flag1}/ckpt/{name}/'+checkpoints)
@@ -233,8 +233,8 @@ def scene_cluster(auc_1 = 0.,flag1 = 0):
         name = f'{args.supervise}|{args.dataset}'
         checkpoints = f'model' + '{:.5f}.pkl'.format(
             auc_1)
-        device = torch.device("cuda:0")
-        model = Model()
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        model = Autoencoder().to(device)
 
         # 加载预训练的权重
         checkpoint = torch.load(f'{args.UNVAD}stage{flag1}/ckpt/{name}/'+checkpoints)

@@ -94,8 +94,8 @@ def get_cluster(auc_1,flag1,threshold1,dataset_input=None,loader_input=None,batc
         os.remove(file_name)
     if not os.path.exists(file_name):
         name = f'{args.supervise}|{args.dataset}'
-        device = torch.device("cuda:0")
-        model = Autoencoder()
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        model = Autoencoder().to(device)
 
         # 加载预训练的权重
         checkpoints = f'{args.UNVAD}stage{flag1}/ckpt/{name}/model' + '{:.5f}'.format(
