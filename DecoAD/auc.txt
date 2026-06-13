@@ -1,0 +1,60 @@
+=====第1次训练=====
+auc_1:0.71563	initial_lr1:0.005	initial_weight_decay1:5e-05
+auc_2:0.7208	initial_lr2:5e-06	initial_weight_decay2:5e-08
+=====第2次训练=====
+auc_1:0.73158	initial_lr1:0.001	initial_weight_decay1:1e-05
+auc_2:0.73253	initial_lr2:1.0000000000000002e-06	initial_weight_decay2:1e-08
+=====第3次训练=====
+auc_1:0.73253	initial_lr1:0.0005	initial_weight_decay1:5e-06
+auc_2:0.73297	initial_lr2:5.000000000000001e-07	initial_weight_decay2:5e-09
+=====第4次训练=====
+auc_1:0.73326	initial_lr1:0.0001	initial_weight_decay1:1.0000000000000002e-06
+auc_2:0.73333	initial_lr2:1.0000000000000002e-07	initial_weight_decay2:1e-09
+=====第5次训练=====
+auc_1:0.73333	initial_lr1:5e-05	initial_weight_decay1:5.000000000000001e-07
+auc_2:0.73337	initial_lr2:5.000000000000001e-08	initial_weight_decay2:5e-10
+=====第6次训练=====
+auc_1:0.73337	initial_lr1:1e-05	initial_weight_decay1:1.0000000000000002e-07
+auc_2:0.73338	initial_lr2:1.0000000000000004e-08	initial_weight_decay2:1.0000000000000002e-10
+=====第7次训练=====
+auc_1:0.73338	initial_lr1:5e-06	initial_weight_decay1:5.000000000000001e-08
+auc_2:0.73338	initial_lr2:5.000000000000002e-09	initial_weight_decay2:5.000000000000001e-11
+=====第8次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000002e-06	initial_weight_decay1:1.0000000000000004e-08
+auc_2:0.73338	initial_lr2:1.0000000000000005e-09	initial_weight_decay2:1.0000000000000003e-11
+=====第9次训练=====
+auc_1:0.73338	initial_lr1:5.000000000000001e-07	initial_weight_decay1:5.000000000000002e-09
+auc_2:0.73338	initial_lr2:5.000000000000002e-10	initial_weight_decay2:5.000000000000001e-12
+=====第10次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000002e-07	initial_weight_decay1:1.0000000000000005e-09
+auc_2:0.73338	initial_lr2:1.0000000000000006e-10	initial_weight_decay2:1.0000000000000004e-12
+=====第11次训练=====
+auc_1:0.73338	initial_lr1:5.000000000000001e-08	initial_weight_decay1:5.000000000000002e-10
+auc_2:0.73338	initial_lr2:5.000000000000003e-11	initial_weight_decay2:5.000000000000002e-13
+=====第12次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000004e-08	initial_weight_decay1:1.0000000000000006e-10
+auc_2:0.73338	initial_lr2:1.0000000000000006e-11	initial_weight_decay2:1.0000000000000004e-13
+=====第13次训练=====
+auc_1:0.73338	initial_lr1:5.000000000000002e-09	initial_weight_decay1:5.000000000000003e-11
+auc_2:0.73338	initial_lr2:5.000000000000003e-12	initial_weight_decay2:5.000000000000002e-14
+=====第14次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000005e-09	initial_weight_decay1:1.0000000000000006e-11
+auc_2:0.73338	initial_lr2:1.0000000000000006e-12	initial_weight_decay2:1.0000000000000005e-14
+=====第15次训练=====
+auc_1:0.73338	initial_lr1:5.000000000000002e-10	initial_weight_decay1:5.000000000000003e-12
+auc_2:0.73338	initial_lr2:5.000000000000003e-13	initial_weight_decay2:5.000000000000002e-15
+=====第16次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000006e-10	initial_weight_decay1:1.0000000000000006e-12
+auc_2:0.73338	initial_lr2:1.0000000000000007e-13	initial_weight_decay2:1.0000000000000005e-15
+=====第17次训练=====
+auc_1:0.73338	initial_lr1:5.000000000000003e-11	initial_weight_decay1:5.000000000000003e-13
+auc_2:0.73338	initial_lr2:5.000000000000003e-14	initial_weight_decay2:5.000000000000002e-16
+=====第18次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000006e-11	initial_weight_decay1:1.0000000000000007e-13
+auc_2:0.73338	initial_lr2:1.0000000000000008e-14	initial_weight_decay2:1.0000000000000005e-16
+=====第19次训练=====
+auc_1:0.73338	initial_lr1:5.000000000000003e-12	initial_weight_decay1:5.000000000000003e-14
+auc_2:0.73338	initial_lr2:5.000000000000004e-15	initial_weight_decay2:5.0000000000000024e-17
+=====第20次训练=====
+auc_1:0.73338	initial_lr1:1.0000000000000006e-12	initial_weight_decay1:1.0000000000000008e-14
+auc_2:0.73338	initial_lr2:1.0000000000000009e-15	initial_weight_decay2:1.0000000000000005e-17
