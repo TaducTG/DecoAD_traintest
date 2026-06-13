@@ -48,9 +48,9 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,threshold1 = 0,batchsize =
     name = f'{args.supervise}|{args.dataset}'
     checkpoints = f'{args.UNVAD}stage{flag1}/ckpt/{name}/model' + '{:.5f}'.format(auc_1) + '_' + '{:.5f}.pkl'.format(
         threshold1)
-    device = torch.device("cuda:0")
-    model1 = Autoencoder()
-    model2 = Autoencoder()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model1 = Autoencoder().to(device)
+    model2 = Autoencoder().to(device)
 
     # 加载预训练的权重
     checkpoint = torch.load(checkpoints)
@@ -193,6 +193,14 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,threshold1 = 0,batchsize =
                     n = [data, mate, scene, label,path]
                     datasets.append(n)
                     nn += 1
+                if args.dataset == 'Demo':
+                    if score <= lower_50_threshold:
+                        a = [data, mate, scene, label, path]
+                        dataset_a.append(a)
+                        aa += 1
+                    pbar.update(1)
+                    continue
+
                 pose_id = pose_ids[ids]
                 label = -1
                 if args.dataset == 'UBnormal':
