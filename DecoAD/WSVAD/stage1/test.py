@@ -188,20 +188,36 @@ def test(dataloader, model, device, sl=24, threshold=0.5 ,window_size=156):
                         old_scene = int(mate_p[0][i])
 
                     # 更新 gt_tmp 张量
-                    else:
-                        if num > frame_start:
-                            # 确保 start 和 end 不超出边界
-                            start_update_pos = max(0, frame_start)
-                            end_update_pos = min(frame_start + sl, num)
+                    if num > frame_start:
+                        # 确保 start 和 end 不超出边界
+                        start_update_pos = max(0, frame_start)
+                        end_update_pos = min(frame_start + sl, num)
 
-                            # 确保 condition 和 logits 的形状匹配
-                            logits_slice = logits[:end_update_pos - start_update_pos]
-                            gt_slice = gt_tmp[frame_start:end_update_pos]
+                        # 确保 condition 和 logits 的形状匹配
+                        logits_slice = logits[:end_update_pos - start_update_pos]
+                        gt_slice = gt_tmp[frame_start:end_update_pos]
 
-                            # 创建布尔条件张量，并更新 gt_tmp
-                            condition = logits_slice > gt_slice
-                            gt_tmp[frame_start:end_update_pos] = torch.where(condition, logits_slice, gt_slice)
+                        # 创建布尔条件张量，并更新 gt_tmp
+                        condition = logits_slice > gt_slice
+                        gt_tmp[frame_start:end_update_pos] = torch.where(condition, logits_slice, gt_slice)
                 pbar.update(1)
+
+        # 遍历结束后，将最后一个视频的数据追加到结果中
+        if num != 0:
+            count_zeros = 0
+            tp = 0
+            # 从数组的最后一个元素开始往前遍历
+            for ii in range(len(gt_tmp) - 1, -1, -1):
+                if gt_tmp[ii] == 0:
+                    count_zeros += 1
+                else:
+                    tp = gt_tmp[ii]
+                    for jj in range(24 - sl):
+                        gt_tmp[jj + ii + 1] = tp
+                    break
+            gt_zip = np.concatenate((gt_zip, gt_array))
+            gt_tmp = smooth_scores(gt_tmp.cpu(), window_size)
+            pre_zip = np.concatenate((pre_zip, np.array(gt_tmp)))
 
     auc = roc_auc_score(gt_zip, pre_zip)
     ap = average_precision_score(gt_zip, pre_zip)

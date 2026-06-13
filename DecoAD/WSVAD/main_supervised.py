@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
     datasets, dataset_a, dataset_t, loaders, loader_a, loader_t = None,None,None,None,None,None
-    for i in range(100):
+    for i in range(20):
         epochs_1 = int(initial_epochs_1)
         epochs_2 = initial_epochs_2
         print(f"=====第{i + 1}次训练=====")

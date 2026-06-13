@@ -146,13 +146,30 @@ def test(dataloader, model, device,threshold,sl=24,window_size = 12, smoothing =
                         old_mate_data = mate_data
                         old_scene = int(mate_p[0][i])
 
-                    else:
-                        if num>frame_start+sl-1:
-                            condition = logits > gt_tmp[frame_start:frame_start + sl]
-                            gt_tmp[frame_start:frame_start + sl][condition] = logits.item()
+                    if num > frame_start:
+                        # 确保 start 和 end 不超出边界
+                        start_update_pos = max(0, frame_start)
+                        end_update_pos = min(frame_start + sl, num)
+                        condition = logits > gt_tmp[start_update_pos:end_update_pos]
+                        gt_tmp[start_update_pos:end_update_pos][condition] = logits.item()
 
                 pbar.update(1)
 
+        # 遍历结束后，将最后一个视频的数据追加到结果中
+        if num != 0:
+            count_zeros = 0
+            for ii in range(len(gt_tmp) - 1, -1, -1):
+                if gt_tmp[ii] == 0:
+                    count_zeros += 1
+                else:
+                    tp = gt_tmp[ii]
+                    for jj in range(24 - sl):
+                        gt_tmp[jj + ii + 1] = tp
+                    break
+
+            gt_zip = np.concatenate((gt_zip, gt_array))
+            gt_tmp = smooth_scores(gt_tmp.cpu().numpy(), window_size=window_size)
+            pre_zip = np.concatenate((pre_zip, np.array(gt_tmp)))
 
     # 归一化预测分数
     pre_zip = map_loss_to_score(pre_zip, max_loss, threshold, 0.5)
