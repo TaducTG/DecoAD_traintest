@@ -252,4 +252,5 @@ def to_test(checkpoints = ''):
 
 
 if __name__ == '__main__':
-    to_test('')
+    #to_test('')
+    to_test(args.checkpoint)
