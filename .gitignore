@@ -4,3 +4,4 @@ ground_truth_demo/
 Avenue Dataset/
 **/frames/
 **/alphapose_output/
+colab_train_code.ipynb
