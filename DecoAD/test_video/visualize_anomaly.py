@@ -6,7 +6,7 @@ filtered_argv = []
 i = 1
 while i < len(sys.argv):
     arg = sys.argv[i]
-    if arg in ['--checkpoint', '--video_name', '--threshold', '--window_size', '--output', '--pose_json', '--frames_dir']:
+    if arg in ['--checkpoint', '--video_name', '--threshold', '--window_size', '--output', '--pose_json', '--frames_dir', '--video_path']:
         if i + 1 < len(sys.argv):
             custom_args[arg] = sys.argv[i+1]
             i += 2
@@ -45,6 +45,7 @@ def main():
     args.output = custom_args.get('--output', 'output_visualized.mp4')
     args.pose_json = custom_args.get('--pose_json', None)
     args.frames_dir = custom_args.get('--frames_dir', None)
+    args.video_path = custom_args.get('--video_path', None)
     
     args, model_args = init_sub_args(args)
     
@@ -146,31 +147,49 @@ def main():
         person_frame_scores[person_id] = smoothed
 
     # 6. Read frames, draw boxes and compile to video
-    frames_dir = args.frames_dir if args.frames_dir else os.path.join(args.data_dir, args.dataset, "test", "frames")
-    print(f"Reading frames from {frames_dir}...")
-    
-    # Verify first frame to get size
-    first_frame_path = os.path.join(frames_dir, "frame_000000.jpg")
-    if not os.path.exists(first_frame_path):
-        raise FileNotFoundError(f"First frame not found at: {first_frame_path}. Ensure preprocessing was run.")
-        
-    img = cv2.imread(first_frame_path)
-    height, width, _ = img.shape
+    if args.video_path:
+        print(f"Reading frames from video file: {args.video_path}")
+        cap = cv2.VideoCapture(args.video_path)
+        if not cap.isOpened():
+            raise FileNotFoundError(f"Cannot open video file: {args.video_path}")
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
+        # Check if the number of frames matches
+        video_num_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        if video_num_frames > 0:
+            num_frames = min(num_frames, video_num_frames)
+    else:
+        frames_dir = args.frames_dir if args.frames_dir else os.path.join(args.data_dir, args.dataset, "test", "frames")
+        print(f"Reading frames from directory: {frames_dir}")
+        # Verify first frame to get size
+        first_frame_path = os.path.join(frames_dir, "frame_000000.jpg")
+        if not os.path.exists(first_frame_path):
+            raise FileNotFoundError(f"First frame not found at: {first_frame_path}. Ensure preprocessing was run.")
+            
+        img = cv2.imread(first_frame_path)
+        height, width, _ = img.shape
+        fps = 25.0
     
     # Create video writer
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(args.output, fourcc, 25.0, (width, height))
+    out = cv2.VideoWriter(args.output, fourcc, fps, (width, height))
     
     print(f"Writing annotated video to {args.output}...")
     for f in tqdm(range(num_frames), desc="Annotating frames"):
-        frame_name = f"frame_{f:06d}.jpg"
-        frame_path = os.path.join(frames_dir, frame_name)
-        
-        if not os.path.exists(frame_path):
-            # If downsampled, some frames might not exist physically
-            continue
+        if args.video_path:
+            ret, frame_img = cap.read()
+            if not ret:
+                break
+        else:
+            frame_name = f"frame_{f:06d}.jpg"
+            frame_path = os.path.join(frames_dir, frame_name)
             
-        frame_img = cv2.imread(frame_path)
+            if not os.path.exists(frame_path):
+                # If downsampled, some frames might not exist physically
+                continue
+                
+            frame_img = cv2.imread(frame_path)
         
         # Draw bounding box for each person active in this frame
         for track_id, frames_dict in tracking_data.items():
@@ -214,6 +233,8 @@ def main():
                 
         out.write(frame_img)
         
+    if args.video_path:
+        cap.release()
     out.release()
     print("Done! Video visualization saved successfully.")
 
