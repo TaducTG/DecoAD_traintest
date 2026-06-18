@@ -1,3 +1,25 @@
+import sys
+
+# Extract our custom arguments from sys.argv to avoid ModuleNotFoundError/UnrecognizedArguments during import of dataset.py
+custom_args = {}
+filtered_argv = []
+i = 1
+while i < len(sys.argv):
+    arg = sys.argv[i]
+    if arg in ['--checkpoint', '--video_name', '--threshold', '--window_size', '--output']:
+        if i + 1 < len(sys.argv):
+            custom_args[arg] = sys.argv[i+1]
+            i += 2
+        else:
+            custom_args[arg] = 'True'
+            i += 1
+    else:
+        filtered_argv.append(arg)
+        i += 1
+
+# Reset sys.argv for standard args parser inside dataset.py
+sys.argv = [sys.argv[0]] + filtered_argv
+
 import os
 import json
 import cv2
@@ -10,17 +32,17 @@ from WSVAD.stage1.fusion import Model
 from WSVAD.stage1.dataset import gen_fusion_dataset_dataloader, smooth_scores
 from WSVAD.stage1.args import init_parser, init_sub_args
 
-def parse_args():
-    parser = init_parser()
-    parser.add_argument('--checkpoint', type=str, required=True, help="Path to the trained model checkpoint (.pkl)")
-    parser.add_argument('--video_name', type=str, default="abnormal_scene_1_scenario2", help="Video name prefix (e.g. abnormal_scene_1_scenario2)")
-    parser.add_argument('--threshold', type=float, default=0.5, help="Anomaly threshold (default: 0.5)")
-    parser.add_argument('--window_size', type=int, default=78, help="Smoothing window size (default: 78)")
-    parser.add_argument('--output', type=str, default="output_visualized.mp4", help="Output video path")
-    return parser.parse_args()
-
 def main():
-    args = parse_args()
+    parser = init_parser()
+    args = parser.parse_args()
+    
+    # Restore our custom arguments manually
+    args.checkpoint = custom_args.get('--checkpoint', None)
+    args.video_name = custom_args.get('--video_name', 'abnormal_scene_1_scenario2')
+    args.threshold = float(custom_args.get('--threshold', 0.5))
+    args.window_size = int(custom_args.get('--window_size', 78))
+    args.output = custom_args.get('--output', 'output_visualized.mp4')
+    
     args, model_args = init_sub_args(args)
     
     device = torch.device('cuda:0' if 'cuda' in args.device and torch.cuda.is_available() else 'cpu')
