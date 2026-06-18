@@ -31,7 +31,7 @@ def im_preprocess(image):
 
 
 def extract_image_patches(image, bboxes):
-    bboxes = np.round(bboxes).astype(np.int)
+    bboxes = np.round(bboxes).astype(int)
     bboxes = bbox_utils.clip_boxes(bboxes, image.shape)
     patches = [image[box[1]:box[3], box[0]:box[2]] for box in bboxes]
     return patches
