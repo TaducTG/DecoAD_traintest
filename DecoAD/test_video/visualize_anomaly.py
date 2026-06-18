@@ -6,7 +6,7 @@ filtered_argv = []
 i = 1
 while i < len(sys.argv):
     arg = sys.argv[i]
-    if arg in ['--checkpoint', '--video_name', '--threshold', '--window_size', '--output']:
+    if arg in ['--checkpoint', '--video_name', '--threshold', '--window_size', '--output', '--pose_json', '--frames_dir']:
         if i + 1 < len(sys.argv):
             custom_args[arg] = sys.argv[i+1]
             i += 2
@@ -43,6 +43,8 @@ def main():
     args.threshold = float(custom_args.get('--threshold', 0.5))
     args.window_size = int(custom_args.get('--window_size', 78))
     args.output = custom_args.get('--output', 'output_visualized.mp4')
+    args.pose_json = custom_args.get('--pose_json', None)
+    args.frames_dir = custom_args.get('--frames_dir', None)
     
     args, model_args = init_sub_args(args)
     
@@ -104,7 +106,7 @@ def main():
     clip_scores = person_segment_scores[target_clip_id]
     
     # 4. Load tracking JSON to get coordinates and find the total frame count
-    json_path = os.path.join(args.data_dir, args.dataset, "pose", "test", f"{args.video_name}_alphapose_tracked_person.json")
+    json_path = args.pose_json if args.pose_json else os.path.join(args.data_dir, args.dataset, "pose", "test", f"{args.video_name}_alphapose_tracked_person.json")
     if not os.path.exists(json_path):
         raise FileNotFoundError(f"Tracking JSON not found at: {json_path}")
         
@@ -144,7 +146,7 @@ def main():
         person_frame_scores[person_id] = smoothed
 
     # 6. Read frames, draw boxes and compile to video
-    frames_dir = os.path.join(args.data_dir, args.dataset, "test", "frames")
+    frames_dir = args.frames_dir if args.frames_dir else os.path.join(args.data_dir, args.dataset, "test", "frames")
     print(f"Reading frames from {frames_dir}...")
     
     # Verify first frame to get size
