@@ -29,7 +29,8 @@ import argparse
 from tqdm import tqdm
 
 from WSVAD.stage1.fusion import Model
-from WSVAD.stage1.dataset import gen_fusion_dataset_dataloader, smooth_scores
+from WSVAD.stage1.dataset import gen_fusion_dataset_dataloader
+from WSVAD.stage1.test import smooth_scores
 from WSVAD.stage1.args import init_parser, init_sub_args
 
 def main():
