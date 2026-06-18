@@ -33,9 +33,9 @@ def clip_box(bbox, im_shape):
 
 
 def int_box(box):
-    box = np.asarray(box, dtype=np.float)
+    box = np.asarray(box, dtype=float)
     box = np.round(box)
-    return np.asarray(box, dtype=np.int)
+    return np.asarray(box, dtype=int)
 
 
 # for display
@@ -58,9 +58,9 @@ def get_color(indx, cls_num=1):
 
 def draw_detection(im, bboxes, scores=None, cls_inds=None, cls_name=None):
     # draw image
-    bboxes = np.round(bboxes).astype(np.int)
+    bboxes = np.round(bboxes).astype(int)
     if cls_inds is not None:
-        cls_inds = cls_inds.astype(np.int)
+        cls_inds = cls_inds.astype(int)
     cls_num = len(cls_name) if cls_name is not None else 2
 
     imgcv = np.copy(im)
