@@ -59,9 +59,19 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+import shutil
+
 def ensure_dir(path: Path) -> Path:
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+def clear_dir(path: Path) -> None:
+    if path.exists():
+        if path.is_dir():
+            shutil.rmtree(path)
+        else:
+            path.unlink()
+    path.mkdir(parents=True, exist_ok=True)
 
 
 def extract_frames(video_path: Path, frames_dir: Path, frame_step: int = 1) -> list[Path]:
@@ -445,7 +455,11 @@ def main() -> None:
     output_root = Path(args.output_root).resolve()
 
     dataset_root = ensure_dir(output_root / args.dataset_name)
-    frames_dir = ensure_dir(dataset_root / args.split / "frames")
+    
+    # Clear frames_dir to prevent old frames from contaminating the new run
+    frames_dir = dataset_root / args.split / "frames"
+    clear_dir(frames_dir)
+    
     pose_dir = ensure_dir(dataset_root / "pose" / args.split)
     scene_dir = ensure_dir(output_root / f"{args.dataset_name}_scene_feature")
 
@@ -474,6 +488,7 @@ def main() -> None:
 
     device = torch.device(args.device)
     alpha_output_dir = output_root / args.dataset_name / "alphapose_output"
+    clear_dir(alpha_output_dir)
     pose_result_json = run_alphapose(
         frames_dir=frames_dir,
         alphapose_root=alphapose_root,
