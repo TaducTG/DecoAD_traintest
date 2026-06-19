@@ -55,6 +55,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--track-iou-threshold", type=float, default=0.25, help="IoU threshold for track assignment.")
     parser.add_argument("--scene-sample-stride", type=int, default=8, help="Sample every Nth frame for scene features.")
     parser.add_argument("--pose-track", action="store_true", help="Enable AlphaPose tracking pipeline (requires tracker weights).")
+    parser.add_argument("--save-vis-img", action="store_true", help="Save AlphaPose visualized output images (can be slow).")
     parser.add_argument("--device", type=str, default="cpu", help="Torch device, e.g. cpu or cuda:0.")
     return parser.parse_args()
 
@@ -182,6 +183,7 @@ def run_alphapose(
     checkpoint_path: Path,
     device: str,
     pose_track: bool,
+    save_vis_img: bool = False,
 ) -> Path:
     demo_script = alphapose_root / "scripts" / "demo_inference.py"
     if not demo_script.exists():
@@ -208,11 +210,13 @@ def run_alphapose(
         str(output_dir),
         "--detector",
         "yolo",
-        "--save_img",
         "--sp",
         "--gpus",
         "-1" if device.startswith("cpu") else device.split(":")[-1],
     ]
+
+    if save_vis_img:
+        cmd.append("--save_img")
 
     if pose_track:
         cmd.append("--pose_track")
@@ -497,6 +501,7 @@ def main() -> None:
         checkpoint_path=ckpt_path,
         device=args.device,
         pose_track=args.pose_track,
+        save_vis_img=args.save_vis_img,
     )
     tracks = convert_alphapose_results_to_tracks(pose_result_json, frame_paths)
     save_pose_json(tracks, pose_json_path)
