@@ -192,17 +192,14 @@ def is_single_person_dict_continuous(sing_person_dict):
 
 
 def is_seg_continuous(sorted_seg_keys, start_key, seg_len, missing_th=2):
-    """
-    Checks if an input clip is continuous or if there are frames missing
-    :param sorted_seg_keys:
-    :param start_key:
-    :param seg_len:
-    :param missing_th: The number of frames that are allowed to be missing on a sequence,
-    i.e. if missing_th = 1 then a seg for which a single frame is missing is considered continuous
-    :return:
-    """
     start_idx = sorted_seg_keys.index(start_key)
-    expected_idxs = list(range(start_key, start_key + seg_len))
+    if len(sorted_seg_keys) > 1:
+        diffs = [sorted_seg_keys[i+1] - sorted_seg_keys[i] for i in range(len(sorted_seg_keys)-1)]
+        diffs = [d for d in diffs if d > 0]
+        step = min(diffs) if diffs else 1
+    else:
+        step = 1
+    expected_idxs = list(range(start_key, start_key + seg_len * step, step))
     act_idxs = sorted_seg_keys[start_idx: start_idx + seg_len]
     min_overlap = seg_len - missing_th
     key_overlap = len(set(act_idxs).intersection(expected_idxs))

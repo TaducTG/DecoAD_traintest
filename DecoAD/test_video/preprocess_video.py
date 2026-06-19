@@ -210,6 +210,8 @@ def run_alphapose(
         str(output_dir),
         "--detector",
         "yolo",
+        "--qsize",
+        "64",
         "--sp",
         "--gpus",
         "-1" if device.startswith("cpu") else device.split(":")[-1],
