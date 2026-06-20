@@ -147,6 +147,8 @@ def is_single_person_dict_continuous(sing_person_dict):
 
 
 def is_seg_continuous(sorted_seg_keys, start_key, seg_len, missing_th=2):
+    sorted_seg_keys = [int(x) for x in sorted_seg_keys]
+    start_key = int(start_key)
     start_idx = sorted_seg_keys.index(start_key)
     if len(sorted_seg_keys) > 1:
         diffs = [sorted_seg_keys[i+1] - sorted_seg_keys[i] for i in range(len(sorted_seg_keys)-1)]
