@@ -478,7 +478,14 @@ def main() -> None:
 
     if args.max_frames and args.max_frames > 0 and len(frame_paths) > args.max_frames:
         sample_indices = np.linspace(0, len(frame_paths) - 1, args.max_frames, dtype=int)
-        frame_paths = [frame_paths[index] for index in sample_indices]
+        selected_paths = {frame_paths[index] for index in sample_indices}
+        for path in frame_paths:
+            if path not in selected_paths and path.exists():
+                try:
+                    path.unlink()
+                except OSError:
+                    pass
+        frame_paths = [path for path in frame_paths if path in selected_paths]
 
     alphapose_root_env = os.environ.get("ALPHAPOSE_ROOT")
     alphapose_root = Path(alphapose_root_env).resolve() if alphapose_root_env else None
