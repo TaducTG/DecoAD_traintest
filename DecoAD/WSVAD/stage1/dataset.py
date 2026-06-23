@@ -697,6 +697,7 @@ def gen_fusion_dataset_dataloader():
     tmp_train = []
     nn = 0
     aa = 0
+    scene_cache = {}
     for train in dataset_train:
         data, tran, mate, label,path_data = train
         data = data[:2, :, :]
@@ -711,11 +712,14 @@ def gen_fusion_dataset_dataloader():
             else:
                 FN = 'F'
             scene = f'{mate[0]}_{mate[3]//6*6}'
-            scene = torch.load(f"{args.data_dir}{args.dataset}_scene_feature/{mate[0]}{FN}/scene{scene}_features.pth", map_location='cpu')
+            scene_path = f"{args.data_dir}{args.dataset}_scene_feature/{mate[0]}{FN}/scene{scene}_features.pth"
         else:
             scene = mate[0]
-            scene = torch.load(
-                f"{args.data_dir}{args.dataset}_scene_feature/scene{scene}_features.pth", map_location='cpu')
+            scene_path = f"{args.data_dir}{args.dataset}_scene_feature/scene{scene}_features.pth"
+
+        if scene_path not in scene_cache:
+            scene_cache[scene_path] = torch.load(scene_path, map_location='cpu')
+        scene = scene_cache[scene_path]
 
         scene = scene.expand(1, 1, 512)
         if(mate[0] == old_scene and mate[1] == old_mate and tran ==old_tran):
@@ -759,12 +763,14 @@ def gen_fusion_dataset_dataloader():
             # else:
             #     FN = 'F'
             scene = f'{mate[0]}_{mate[3]//6*6}'
-            scene = torch.load(
-                f"{args.data_dir}{args.dataset}_scene_feature/{mate[0]}/scene{scene}_features.pth", map_location='cpu')
+            scene_path = f"{args.data_dir}{args.dataset}_scene_feature/{mate[0]}/scene{scene}_features.pth"
         else:
             scene = mate[0]
-            scene = torch.load(
-                f"{args.data_dir}{args.dataset}_scene_feature/scene{scene}_features.pth", map_location='cpu')
+            scene_path = f"{args.data_dir}{args.dataset}_scene_feature/scene{scene}_features.pth"
+
+        if scene_path not in scene_cache:
+            scene_cache[scene_path] = torch.load(scene_path, map_location='cpu')
+        scene = scene_cache[scene_path]
 
         # scene = mate[0]
         # scene = torch.load(
