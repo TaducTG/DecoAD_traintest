@@ -22,11 +22,11 @@ if __name__ == '__main__':
     flag1 = 0
     auc_2 = auc_1
     flag2 = flag1
-    initial_epochs_1 = 15
+    initial_epochs_1 = 50
     initial_epochs_2 = 10
     init_max_auc = auc_2
 
-    initial_lr1 = 5e-3
+    initial_lr1 = 1e-3
     initial_weight_decay1 = 5e-5
     initial_lr2 = 5e-6
     initial_weight_decay2 = 5e-8
