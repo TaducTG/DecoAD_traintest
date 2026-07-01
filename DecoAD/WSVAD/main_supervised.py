@@ -22,18 +22,18 @@ if __name__ == '__main__':
     flag1 = 0
     auc_2 = auc_1
     flag2 = flag1
-    initial_epochs_1 = 50
+    initial_epochs_1 = 200
     initial_epochs_2 = 10
     init_max_auc = auc_2
 
     initial_lr1 = 1e-3
-    initial_weight_decay1 = 5e-5
+    initial_weight_decay1 = 1e-4
     initial_lr2 = 5e-6
     initial_weight_decay2 = 5e-8
 
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
     datasets, dataset_a, dataset_t, loaders, loader_a, loader_t = None,None,None,None,None,None
-    for i in range(6):
+    for i in range(1):
         epochs_1 = int(initial_epochs_1)
         epochs_2 = initial_epochs_2
         print(f"=====第{i + 1}次训练=====")
