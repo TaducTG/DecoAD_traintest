@@ -111,6 +111,7 @@ class Model(nn.Module):
         self.classifier = nn.Sequential(
             nn.Linear(512+4+128,256),
             nn.ReLU(),
+            nn.Dropout(p=0.5),
             nn.Linear(256,1),
             nn.Sigmoid()
         )

@@ -203,7 +203,7 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,batchsize = args.opbs):
                 scene_id = mate[0]
                 score = scores_dir[ids]
                 if args.dataset == 'Demo':
-                    if score > sorted_scores[lower_20_index]:
+                    if score > sorted_scores[lower_80_index]:
                         label = 1
                         ap = [data, mate, scene, label, path]
                         datasets.append(ap)
