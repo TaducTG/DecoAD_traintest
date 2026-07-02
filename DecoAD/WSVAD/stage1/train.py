@@ -25,10 +25,10 @@ def sparsity(arr, lamda2):
 def bceloss(prediction_1, prediction_2, lamda0, gamma=2):
     label_1 = torch.zeros_like(prediction_1)
     label_2 = torch.ones_like(prediction_2)
-    loss_1 = F.binary_cross_entropy_with_logits(prediction_1, label_1, reduction='none')
-    loss_2 = F.binary_cross_entropy_with_logits(prediction_2, label_2, reduction='none')
-    focal_loss_1 = (1 - torch.sigmoid(prediction_1)) ** gamma * loss_1
-    focal_loss_2 = torch.sigmoid(prediction_2) ** gamma * loss_2
+    loss_1 = F.binary_cross_entropy(prediction_1, label_1, reduction='none')
+    loss_2 = F.binary_cross_entropy(prediction_2, label_2, reduction='none')
+    focal_loss_1 = (1 - prediction_1) ** gamma * loss_1
+    focal_loss_2 = prediction_2 ** gamma * loss_2
     return lamda0 * (torch.mean(focal_loss_1) + torch.mean(focal_loss_2))
 
 def focal_loss(predictions, labels, alpha=0.25, gamma=2.0, lamda=1.0):
