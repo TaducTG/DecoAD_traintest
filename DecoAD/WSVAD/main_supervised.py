@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     initial_lr1 = 1e-3
     initial_weight_decay1 = 1e-4
-    initial_lr2 = 1e-5
+    initial_lr2 = 1e-4
     initial_weight_decay2 = 1e-8
 
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
