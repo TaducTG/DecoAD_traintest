@@ -215,14 +215,14 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,batchsize = args.opbs):
                             ap = [data, mate, scene, 1, path]
                             datasets.append(ap)
                             aplus += 1
-                            a = [data, mate, scene, 1, path]
+                            a = [data, mate, scene, -1, path]
                             dataset_a.append(a)
                             aa += 1
                         else:
                             n = [data, mate, scene, 0, path]
                             datasets.append(n)
                             nn += 1
-                            a = [data, mate, scene, 0, path]
+                            a = [data, mate, scene, -1, path]
                             dataset_a.append(a)
                             aa += 1
                     pbar.update(1)
