@@ -28,8 +28,8 @@ if __name__ == '__main__':
 
     initial_lr1 = 1e-3
     initial_weight_decay1 = 1e-4
-    initial_lr2 = 5e-6
-    initial_weight_decay2 = 5e-8
+    initial_lr2 = 1e-5
+    initial_weight_decay2 = 1e-8
 
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
     datasets, dataset_a, dataset_t, loaders, loader_a, loader_t = None,None,None,None,None,None
@@ -40,8 +40,8 @@ if __name__ == '__main__':
         with open('./auc.txt', 'a+') as file:
             file.write(f"=====第{i + 1}次训练=====\n")
         if i != 0:
-            initial_lr1 = initial_lr1 * 0.5
-            initial_weight_decay1 = initial_weight_decay1 * 0.5
+            initial_lr1 = initial_lr1 * 0.1
+            initial_weight_decay1 = initial_weight_decay1 * 0.1
             initial_lr2 = initial_lr2 * 0.5
             initial_weight_decay2 = initial_weight_decay2 * 0.5
         auc_1, flag1 = main(epochs=epochs_1, auc_2=auc_2, flag2=flag2, lr=initial_lr1, weight_decay=initial_weight_decay1,train_nloader=train_nloader, train_aloader=train_aloader, test_loader=test_loader)
