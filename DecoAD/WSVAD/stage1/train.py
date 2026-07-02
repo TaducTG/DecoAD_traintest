@@ -46,17 +46,15 @@ def ranking(scores, batch_size):
     topk_a_values, _ = torch.topk(scores[batch_size:batch_size * 2], k=1)
     maxn = torch.mean(topk_n_values)
     maxa = torch.mean(topk_a_values)
-    rank1 = F.relu(1.0 - maxa + maxn)
-    # 1e-2 # 0.740  0.414
-    # 0
-    bce_loss = bceloss(maxn, maxa, 1e-3)
+    rank1 = F.relu(0.5 - maxa + maxn)
+    bce_loss = bceloss(maxn, maxa, 1e-2)
     loss = loss + rank1 + bce_loss
 
     topk_n_values, _ = torch.topk(scores[0:batch_size], k=batch_size)
     topk_a_values, _ = torch.topk(scores[batch_size:batch_size * 2], k=int(batch_size / 2))
     maxn = torch.mean(topk_n_values)
     maxa = torch.mean(topk_a_values)
-    rank2 = F.relu(1.0 - maxa + maxn)
+    rank2 = F.relu(0.5 - maxa + maxn)
     loss += rank2 * 1e-1  # 1e-2
 
     return loss

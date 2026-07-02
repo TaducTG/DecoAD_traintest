@@ -124,8 +124,7 @@ class Model(nn.Module):
         # print(f'pose:{np.sum(cost_time)}')  # 3691.3083049989655
         if scene != '':
             # start_time = time.perf_counter()
-            path_diff = path[:, 1:] - path[:, :-1]
-            pfe = self.pfe(path_diff)  # torch.Size([256, 4])
+            pfe = self.pfe(path)  # torch.Size([256, 20])
             # cost_time = time.perf_counter() - start_time
             # print(f'pfe:{np.sum(cost_time)}')
             # start_time = time.perf_counter()
