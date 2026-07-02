@@ -52,7 +52,7 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,batchsize = args.opbs):
     model2.eval()
 
     datasetn, dataseta, datasett, loader_n, loader_a, loader_t = gen_fusion_dataset_dataloader()
-    dataset_train = dataseta
+    dataset_train = datasetn.data + dataseta.data
     dataset_test = datasett
     dataset_a = []
     datasets = []
@@ -203,22 +203,28 @@ def gen_fusion_dataset_dataloader_2(auc_1 = 0,flag1=0,batchsize = args.opbs):
                 scene_id = mate[0]
                 score = scores_dir[ids]
                 if args.dataset == 'Demo':
-                    if score > sorted_scores[lower_80_index]:
-                        label = 1
-                        ap = [data, mate, scene, label, path]
-                        datasets.append(ap)
-                        aplus += 1
-                        a = [data, mate, scene, 1, path]
-                        dataset_a.append(a)
-                        aa += 1
-                    else:
-                        label = 0
-                        n = [data, mate, scene, label, path]
+                    if label == 1:
+                        n = [data, mate, scene, 0, path]
                         datasets.append(n)
                         nn += 1
                         a = [data, mate, scene, 0, path]
                         dataset_a.append(a)
                         aa += 1
+                    else:
+                        if score > sorted_scores[lower_80_index]:
+                            ap = [data, mate, scene, 1, path]
+                            datasets.append(ap)
+                            aplus += 1
+                            a = [data, mate, scene, 1, path]
+                            dataset_a.append(a)
+                            aa += 1
+                        else:
+                            n = [data, mate, scene, 0, path]
+                            datasets.append(n)
+                            nn += 1
+                            a = [data, mate, scene, 0, path]
+                            dataset_a.append(a)
+                            aa += 1
                     pbar.update(1)
                     continue
 
