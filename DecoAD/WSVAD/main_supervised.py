@@ -22,7 +22,7 @@ if __name__ == '__main__':
     flag1 = 0
     auc_2 = auc_1
     flag2 = flag1
-    initial_epochs_1 = 200
+    initial_epochs_1 = 60
     initial_epochs_2 = 10
     init_max_auc = auc_2
 
@@ -33,22 +33,17 @@ if __name__ == '__main__':
 
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
     datasets, dataset_a, dataset_t, loaders, loader_a, loader_t = None,None,None,None,None,None
-    for i in range(1):
+    for i in range(3):
         epochs_1 = int(initial_epochs_1)
         epochs_2 = initial_epochs_2
         print(f"=====第{i + 1}次训练=====")
         with open('./auc.txt', 'a+') as file:
             file.write(f"=====第{i + 1}次训练=====\n")
-        if i%2 == 0 and i != 0:
+        if i != 0:
             initial_lr1 = initial_lr1 * 0.5
             initial_weight_decay1 = initial_weight_decay1 * 0.5
             initial_lr2 = initial_lr2 * 0.5
             initial_weight_decay2 = initial_weight_decay2 * 0.5
-        elif i%2 == 1:
-            initial_lr1 = initial_lr1 * 0.2
-            initial_weight_decay1 = initial_weight_decay1 * 0.2
-            initial_lr2 = initial_lr2 * 0.2
-            initial_weight_decay2 = initial_weight_decay2 * 0.2
         auc_1, flag1 = main(epochs=epochs_1, auc_2=auc_2, flag2=flag2, lr=initial_lr1, weight_decay=initial_weight_decay1,train_nloader=train_nloader, train_aloader=train_aloader, test_loader=test_loader)
         print(f'auc_1:{auc_1}')
         with open('./auc.txt', 'a+') as file:
