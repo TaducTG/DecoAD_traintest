@@ -786,9 +786,16 @@ def gen_fusion_dataset_dataloader():
     dataset_a = UbnormalDataset(dataset_a)
     dataset_t = UbnormalDataset(dataset_t)
 
-    loader_n = DataLoader(dataset_n, **loader_args, shuffle=True, generator=torch.Generator())
-    loader_a = DataLoader(dataset_a, **loader_args, shuffle=True, generator=torch.Generator())
-    loader_t = DataLoader(dataset_t, **loader_args, shuffle=False, generator=torch.Generator())
+    g_n = torch.Generator()
+    g_n.manual_seed(42)
+    g_a = torch.Generator()
+    g_a.manual_seed(42)
+    g_t = torch.Generator()
+    g_t.manual_seed(42)
+
+    loader_n = DataLoader(dataset_n, **loader_args, shuffle=True, generator=g_n)
+    loader_a = DataLoader(dataset_a, **loader_args, shuffle=True, generator=g_a)
+    loader_t = DataLoader(dataset_t, **loader_args, shuffle=False, generator=g_t)
 
     return dataset_n, dataset_a, dataset_t, loader_n, loader_a, loader_t
 

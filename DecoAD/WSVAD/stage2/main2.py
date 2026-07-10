@@ -161,7 +161,9 @@ def main2(epochs = 0,auc_1 = 0.,flag1=0, lr=0.000005, weight_decay=0.000005,data
             datasets_l = UbnormalDataset(datasets)
             dataset_a_tmp_l = UbnormalDataset(dataset_a_tmp)
 
-            loaders = DataLoader(datasets_l, **loader_args, shuffle=True, generator=torch.Generator())
+            g_l = torch.Generator()
+            g_l.manual_seed(2024)
+            loaders = DataLoader(datasets_l, **loader_args, shuffle=True, generator=g_l)
 
             dataset_a = dataset_a_tmp
             print(f'aa:{aa}\tnn:{nn}\taapp:{aapp}')
