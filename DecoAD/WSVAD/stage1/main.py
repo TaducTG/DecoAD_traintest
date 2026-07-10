@@ -30,7 +30,7 @@ def setup_seed(seed):
         torch.cuda.manual_seed_all(seed)  # 并行gpu
 
 
-setup_seed(int(42))  # 1577677170  2023
+setup_seed(args.seed)  # 1577677170  2023
 
 def main(epochs = 0,auc_2=0,flag2=0,lr=0.001, weight_decay=0.0005,train_nloader = None, train_aloader=None, test_loader = None):
     if epochs == 0:
