@@ -31,48 +31,21 @@ if __name__ == '__main__':
     initial_lr2 = 1e-4
     initial_weight_decay2 = 1e-8
 
-    # ===== Automated Seed Search =====
-    candidate_seeds = [42, 123, 777, 2024, 999]
-    best_seed = candidate_seeds[0]
-    best_auc = 0.0
+    # ===== Fixed Seed Setup =====
+    fixed_seed = 123
+    args.seed = fixed_seed
 
-    print("===== 开始自动寻找最优 Seed (Automated Seed Search) =====")
     import random
     import numpy as np
     import torch
 
-    for seed in candidate_seeds:
-        print(f"\n---> 正在尝试 Seed: {seed} (运行 5 epochs dry-run) ...")
-        args.seed = seed
-        random.seed(seed)
-        np.random.seed(seed)
-        torch.manual_seed(seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(seed)
-            torch.cuda.manual_seed_all(seed)
-
-        # Recreate loaders with the current seed
-        _, _, _, seed_nloader, seed_aloader, seed_tloader = gen_fusion_dataset_dataloader()
-
-        # Run 5 epochs dry run
-        auc_dry, _ = main(epochs=5, auc_2=0, flag2=0, lr=initial_lr1, weight_decay=initial_weight_decay1,
-                          train_nloader=seed_nloader, train_aloader=seed_aloader, test_loader=seed_tloader)
-        print(f"Seed {seed} đạt AUC: {auc_dry} ở epoch 5")
-        if auc_dry > best_auc:
-            best_auc = auc_dry
-            best_seed = seed
-
-    print(f"\n===== 找到最优 Seed: {best_seed} (AUC: {best_auc}) =====")
-    print(f"===== 使用 Seed {best_seed} 进行正式训练 =====\n")
-
-    # Set to best seed and recreate the final loaders
-    args.seed = best_seed
-    random.seed(best_seed)
-    np.random.seed(best_seed)
-    torch.manual_seed(best_seed)
+    print(f"===== 使用固定 Seed: {fixed_seed} 进行训练 =====")
+    random.seed(fixed_seed)
+    np.random.seed(fixed_seed)
+    torch.manual_seed(fixed_seed)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(best_seed)
-        torch.cuda.manual_seed_all(best_seed)
+        torch.cuda.manual_seed(fixed_seed)
+        torch.cuda.manual_seed_all(fixed_seed)
 
     _, _, _, train_nloader, train_aloader, test_loader = gen_fusion_dataset_dataloader()
     datasets, dataset_a, dataset_t, loaders, loader_a, loader_t = None,None,None,None,None,None
