@@ -787,11 +787,11 @@ def gen_fusion_dataset_dataloader():
     dataset_t = UbnormalDataset(dataset_t)
 
     g_n = torch.Generator()
-    g_n.manual_seed(42)
+    g_n.manual_seed(args.seed)
     g_a = torch.Generator()
-    g_a.manual_seed(42)
+    g_a.manual_seed(args.seed)
     g_t = torch.Generator()
-    g_t.manual_seed(42)
+    g_t.manual_seed(args.seed)
 
     loader_n = DataLoader(dataset_n, **loader_args, shuffle=True, generator=g_n)
     loader_a = DataLoader(dataset_a, **loader_args, shuffle=True, generator=g_a)

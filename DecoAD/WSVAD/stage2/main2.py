@@ -31,13 +31,12 @@ def setup_seed(seed):
         torch.cuda.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)  # 并行gpu
 
-
-setup_seed(int(2024))  # 1577677170  2023
-
 # 初始化解析器
 parser = init_parser()
 # 解析参数
 args = parser.parse_args()
+
+setup_seed(args.seed)  # 1577677170  2023
 
 def main2(epochs = 0,auc_1 = 0.,flag1=0, lr=0.000005, weight_decay=0.000005,datasets=None, dataset_a=None, dataset_t=None, loaders=None, loader_a=None, loader_t=None,batchsize = args.opbs):
 
@@ -162,7 +161,7 @@ def main2(epochs = 0,auc_1 = 0.,flag1=0, lr=0.000005, weight_decay=0.000005,data
             dataset_a_tmp_l = UbnormalDataset(dataset_a_tmp)
 
             g_l = torch.Generator()
-            g_l.manual_seed(2024)
+            g_l.manual_seed(args.seed)
             loaders = DataLoader(datasets_l, **loader_args, shuffle=True, generator=g_l)
 
             dataset_a = dataset_a_tmp
